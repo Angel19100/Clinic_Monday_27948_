@@ -1,0 +1,43 @@
+### saveAppointment
+POST http://localhost:1014/api/appointment/save?doctorId=00000000-0000-0000-0000-000000000000&patientId=00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "appointmentDate": "2026-01-01T00:00:00",
+  "reason": "reason",
+  "status": {},
+  "patient": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "firstName": "firstName",
+    "lastName": "lastName",
+    "dateOfBirth": "2026-01-01T00:00:00",
+    "appointments": [
+      {}
+    ]
+  },
+  "doctor": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "firstName": "firstName",
+    "lastName": "lastName",
+    "dateOfBirth": "2026-01-01T00:00:00",
+    "office": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "name",
+      "officeNumber": 0,
+      "doctor": {}
+    },
+    "specializations": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "name",
+        "doctors": [
+          {}
+        ]
+      }
+    ],
+    "appointments": [
+      {}
+    ]
+  }
+}

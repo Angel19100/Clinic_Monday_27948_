@@ -1,0 +1,36 @@
+package kigali.clinc.clinicmanagement.repository;
+
+import java.util.UUID;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import kigali.clinc.clinicmanagement.domain.Doctor;
+
+public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+  
+     //- B1
+    // Find doctors who have a specific specialization,
+    // ignoring uppercase/lowercase.
+    @Query("""
+        SELECT d
+        FROM Doctor d
+        JOIN d.specializations s
+        WHERE LOWER(s.name) = LOWER(:name)
+    """)
+    List<Doctor> findDoctorsBySpecialization(
+            @Param("name") String name);
+
+            //B2
+            //Find docotrs who do not have an office.
+            @Query("""
+                    Select d
+                    FROM Doctor d
+                    WHERE d.office IS NULL
+                    """)
+            List<Doctor> findDoctorsWithoutOffice();
+
+
+}

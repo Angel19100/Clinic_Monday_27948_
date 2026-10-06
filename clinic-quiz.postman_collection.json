@@ -1,0 +1,369 @@
+{
+  "info": {
+    "_postman_id": "3aac0988-fa33-4138-9ef7-3e20cca65e9a",
+    "name": "PART1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58405244"
+  },
+  "item": [
+    {
+      "name": "A1",
+      "request": {
+        "auth": {
+          "type": "inherit"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/patients/by-last-name?lastName=uwase",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "patients",
+            "by-last-name"
+          ],
+          "query": [
+            {
+              "key": "lastName",
+              "value": "uwase",
+              "sortOrder": 0
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Status checking",
+      "request": {
+        "auth": {
+          "type": "inherit"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/by-status?status=SCHEDULED",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "by-status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "SCHEDULED",
+              "sortOrder": 0
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/between?start=2026-10-01&end=2026-10-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "between"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B3",
+      "request": {
+        "auth": {
+          "type": "inherit"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/specializations/unused",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "specializations",
+            "unused"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/patients/of-doctor/00000000-0000-0000-0000-000000000000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "patients",
+            "of-doctor",
+            "00000000-0000-0000-0000-000000000000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/patients/frequent?min=3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "patients",
+            "frequent"
+          ],
+          "query": [
+            {
+              "key": "min",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/office/busiest",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "office",
+            "busiest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/cancel-day?doctorId=12345678-1234-1234-1234-123456789abc&date=2026-10-20",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "doctorId",
+              "value": "12345678-1234-1234-1234-123456789abc"
+            },
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BONUS1",
+      "request": {
+        "auth": {
+          "type": "inherit"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/page?page=0&size=5&sort=appointmentDate,desc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0",
+              "sortOrder": 0
+            },
+            {
+              "key": "size",
+              "value": "5",
+              "sortOrder": 1
+            },
+            {
+              "key": "sort",
+              "value": "appointmentDate,desc",
+              "sortOrder": 2
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BONUS 2",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/cancelled-before?date=2026-10-15",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "cancelled-before"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2026-10-15"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A4",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"appointmentDate\": \"2026-10-05\",\r\n    \"reason\": \"double booking test\",\r\n    \"status\": \"SCHEDULED\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/save?doctorId=489720a5-7b29-4ea3-b5c8-31e1f09623e6&patientId=87c49894-ee60-4607-a93b-8a26d807d97e",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "doctorId",
+              "value": "489720a5-7b29-4ea3-b5c8-31e1f09623e6"
+            },
+            {
+              "key": "patientId",
+              "value": "87c49894-ee60-4607-a93b-8a26d807d97e"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

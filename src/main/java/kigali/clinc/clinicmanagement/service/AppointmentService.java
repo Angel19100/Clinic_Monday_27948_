@@ -1,0 +1,174 @@
+package kigali.clinc.clinicmanagement.service;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.Doctor;
+import kigali.clinc.clinicmanagement.domain.Patient;
+import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
+import kigali.clinc.clinicmanagement.repository.DoctorRepository;
+import kigali.clinc.clinicmanagement.repository.PatientRepository;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+
+@Service
+public class AppointmentService {
+
+    @Autowired
+    private AppointmentRepository appointmentRepo;
+
+    @Autowired
+    private DoctorRepository doctorRepo;
+
+    @Autowired
+    private PatientRepository patientRepo;
+
+    // CREATE
+// CREATE
+public Object saveAppointment(
+        Appointment appointment,
+        UUID doctorId,
+        UUID patientId) {
+
+    Doctor doctor = doctorRepo.findById(doctorId).orElse(null);
+    Patient patient = patientRepo.findById(patientId).orElse(null);
+
+    if (doctor == null) {
+        return "Doctor not found";
+    }
+
+    if (patient == null) {
+        return "Patient not found";
+    }
+
+    // Assignment 2 - A4
+    boolean alreadyBooked =
+            appointmentRepo.existsByDoctorIdAndAppointmentDateAndStatusNot(
+                    doctorId,
+                    appointment.getAppointmentDate(),
+                    AppointmentStatus.CANCELLED);
+
+    if (alreadyBooked) {
+        return "Doctor is already booked on that date";
+    }
+
+    appointment.setDoctor(doctor);
+    appointment.setPatient(patient);
+
+    return appointmentRepo.save(appointment);
+}
+
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepo.findAll();
+    }
+
+    public Appointment getAppointmentById(UUID id) {
+        return appointmentRepo.findById(id).orElse(null);
+    }
+
+    public Appointment updateAppointment(
+            UUID id,
+            Appointment appointment,
+            UUID doctorId,
+            UUID patientId) {
+
+        Appointment existingAppointment =
+                appointmentRepo.findById(id).orElse(null);
+
+        if (existingAppointment == null) {
+            return null;
+        }
+
+        Doctor doctor =
+                doctorRepo.findById(doctorId).orElse(null);
+
+        Patient patient =
+                patientRepo.findById(patientId).orElse(null);
+
+        if (doctor == null) {
+            throw new RuntimeException("Doctor not found");
+        }
+
+        if (patient == null) {
+            throw new RuntimeException("Patient not found");
+        }
+
+        existingAppointment.setAppointmentDate(
+                appointment.getAppointmentDate());
+
+        existingAppointment.setReason(
+                appointment.getReason());
+
+        existingAppointment.setStatus(
+                appointment.getStatus());
+
+        existingAppointment.setDoctor(doctor);
+        existingAppointment.setPatient(patient);
+
+        return appointmentRepo.save(existingAppointment);
+    }
+
+    public boolean deleteAppointment(UUID id) {
+
+        if (!appointmentRepo.existsById(id)) {
+            return false;
+        }
+
+        appointmentRepo.deleteById(id);
+
+        return true;
+    }
+
+    // - A2
+    public List<Appointment> getAppointmentsByStatus(
+        AppointmentStatus status) {
+
+     return appointmentRepo
+            .findByStatusOrderByAppointmentDateAsc(status);
+}
+
+
+//  -A3
+    public List<Appointment> getAppointmentsBetween(
+        java.sql.Date start,
+        java.sql.Date end) {
+
+    return appointmentRepo
+            .findByAppointmentDateBetweenOrderByAppointmentDateAsc(
+                    start, end);
+}
+
+// - C1
+// Get appointment count for each status.
+public List<Object[]> getAppointmentStatsByStatus() {
+
+    return appointmentRepo.countAppointmentsByStatus();
+}
+
+// C4 - Doctor is absent
+public int cancelAppointmentsForDoctorOnDate(
+        UUID doctorId,
+        java.sql.Date date) {
+
+    return appointmentRepo.cancelAppointmentsForDoctorOnDate(
+            doctorId,
+            date
+    );
+}
+
+// BONUS 1 - Pagination
+public Page<Appointment> getAppointmentsPage(Pageable pageable) {
+    return appointmentRepo.findAll(pageable);
+}
+
+// BONUS 2 - Clean old cancellations
+public int deleteCancelledBefore(java.sql.Date date) {
+    return appointmentRepo.deleteCancelledBefore(date);
+}
+}

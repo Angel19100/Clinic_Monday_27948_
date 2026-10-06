@@ -1,0 +1,203 @@
+package kigali.clinc.clinicmanagement.controller;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
+import kigali.clinc.clinicmanagement.service.AppointmentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+@RestController
+@RequestMapping({"/api/appointment", "/api/appointments"})
+public class AppointmentController {
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+   @PostMapping("/save")
+public ResponseEntity<?> saveAppointment(
+        @RequestBody Appointment appointment,
+        @RequestParam UUID doctorId,
+        @RequestParam UUID patientId) {
+
+    Object result =
+            appointmentService.saveAppointment(
+                    appointment,
+                    doctorId,
+                    patientId);
+
+    if (result instanceof String) {
+
+        if (result.equals(
+                "Doctor is already booked on that date")) {
+
+            return ResponseEntity
+                    .status(409)
+                    .body(result);
+        }
+
+        return ResponseEntity
+                .badRequest()
+                .body(result);
+    }
+
+    return ResponseEntity.ok(result);
+}
+
+    @GetMapping
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
+        return ResponseEntity.ok(
+                appointmentService.getAllAppointments());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Appointment> getAppointmentById(
+            @PathVariable UUID id) {
+
+        Appointment appointment =
+                appointmentService.getAppointmentById(id);
+
+        if (appointment == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(appointment);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Appointment> updateAppointment(
+            @PathVariable UUID id,
+            @RequestBody Appointment appointment,
+            @RequestParam UUID doctorId,
+            @RequestParam UUID patientId) {
+
+        Appointment updatedAppointment =
+                appointmentService.updateAppointment(
+                        id,
+                        appointment,
+                        doctorId,
+                        patientId);
+
+        if (updatedAppointment == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedAppointment);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAppointment(
+            @PathVariable UUID id) {
+
+        boolean deleted =
+                appointmentService.deleteAppointment(id);
+
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(
+                "Appointment deleted successfully");
+    }
+
+// Assignment 2 - A2
+@GetMapping("/by-status")
+public ResponseEntity<List<Appointment>> getAppointmentsByStatus(
+        @RequestParam AppointmentStatus status) {
+
+    return ResponseEntity.ok(
+            appointmentService.getAppointmentsByStatus(status)
+    );
+}
+  
+//  - A3
+@GetMapping("/between")
+public ResponseEntity<List<Appointment>> getAppointmentsBetween(
+        @RequestParam String start,
+        @RequestParam String end) {
+
+    java.sql.Date startDate =
+            java.sql.Date.valueOf(start);
+
+    java.sql.Date endDate =
+            java.sql.Date.valueOf(end);
+
+    return ResponseEntity.ok(
+            appointmentService.getAppointmentsBetween(
+                    startDate, endDate)
+    );
+}
+  //  - C1
+@GetMapping("/stats/by-status")
+public ResponseEntity<List<Object[]>> getAppointmentStatsByStatus() {
+
+    return ResponseEntity.ok(
+            appointmentService.getAppointmentStatsByStatus()
+    );
+}
+
+// C4 - Doctor is absent
+@PatchMapping("/cancel-day")
+public ResponseEntity<String> cancelAppointmentsForDoctorOnDate(
+        @RequestParam UUID doctorId,
+        @RequestParam java.sql.Date date) {
+
+    int cancelled = appointmentService.cancelAppointmentsForDoctorOnDate(
+            doctorId,
+            date
+    );
+
+    return ResponseEntity.ok(
+            cancelled + " appointments cancelled"
+    );
+}
+
+// BONUS 1 - Pagination
+@GetMapping("/page")
+public ResponseEntity<Page<Appointment>> getAppointmentsPage(
+        @RequestParam int page,
+        @RequestParam int size,
+        @RequestParam String sort) {
+
+    String[] sortParts = sort.split(",");
+
+    String property = sortParts[0];
+
+    Sort.Direction direction = Sort.Direction.ASC;
+
+    if (sortParts.length > 1 &&
+        sortParts[1].equalsIgnoreCase("desc")) {
+        direction = Sort.Direction.DESC;
+    }
+
+    Pageable pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(direction, property)
+    );
+
+    return ResponseEntity.ok(
+            appointmentService.getAppointmentsPage(pageable)
+    );
+}
+
+// BONUS 2 - Clean old cancellations
+@DeleteMapping("/cancelled-before")
+public ResponseEntity<String> deleteCancelledBefore(
+        @RequestParam java.sql.Date date) {
+
+    int deleted = appointmentService.deleteCancelledBefore(date);
+
+    return ResponseEntity.ok(
+            deleted + " appointments deleted"
+    );
+}
+}
