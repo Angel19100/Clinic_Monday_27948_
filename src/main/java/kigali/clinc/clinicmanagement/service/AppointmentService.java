@@ -273,5 +273,11 @@ public String rescheduleAppointment(
     appointmentRepo.save(appointment);
 
     return "Appointment rescheduled successfully";
+
+ }
+ public boolean existsById(UUID id) {
+    return appointmentRepo.existsById(id);
 }
+
+   
 }
