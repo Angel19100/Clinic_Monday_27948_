@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
 import kigali.clinc.clinicmanagement.domain.Patient;
 import kigali.clinc.clinicmanagement.repository.PatientRepository;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
-
+import java.time.LocalDate;
+import java.sql.Date;
+import java.util.Arrays;
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
+import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 
 @Service
 public class PatientService {
@@ -17,8 +22,13 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepo;
 
+   @Autowired
+private AppointmentRepository appointmentRepo;  
+
     @Autowired
 private DoctorRepository doctorRepo;
+
+
     public boolean doctorExists(UUID doctorId) {
 
     return doctorRepo.existsById(doctorId);
@@ -79,8 +89,24 @@ public List<Patient> getPatientsOfDoctor(UUID doctorId) {
     return patientRepo.findPatientsOfDoctor(doctorId);
 }
 
-// C2 - Frequent Patients
+// C2  Frequent Patients
 public List<Patient> getFrequentPatients(long min) {
     return patientRepo.findFrequentPatients(min);
+}
+
+// D2: Get a patient's upcoming appointments
+public List<Appointment> getUpcomingAppointments(String ssNumber) {
+
+    if (patientRepo.findBySsNumber(ssNumber).isEmpty()) {
+        return null;
+    }
+
+    return appointmentRepo
+            .findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(
+                    ssNumber,
+                    Date.valueOf(LocalDate.now()),
+                    Arrays.asList(
+                            AppointmentStatus.SCHEDULED,
+                            AppointmentStatus.CONFIRMED));
 }
 }

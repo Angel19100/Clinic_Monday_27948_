@@ -15,6 +15,8 @@ import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
+
 public interface AppointmentRepository
         extends JpaRepository<Appointment, UUID> {
 
@@ -76,7 +78,24 @@ Page<Appointment> findAll(Pageable pageable);
 """)
 int deleteCancelledBefore(@Param("date") java.sql.Date date);
 
+// D1 Doctor's appointments on a date, excluding cancelled ones
+List<Appointment> findByDoctor_IdAndAppointmentDateAndStatusNot(
+        UUID doctorId,
+        java.sql.Date appointmentDate,
+        AppointmentStatus status);
 
+
+     // D2 Upcoming appointments for a patient
+List<Appointment>
+findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(
+        String ssNumber,
+        java.sql.Date date,
+        List<AppointmentStatus> statuses);
+
+        //D4 dashboard 
+        long countByAppointmentDate(java.sql.Date appointmentDate);
+
+long countByStatus(AppointmentStatus status);
 
 }
 

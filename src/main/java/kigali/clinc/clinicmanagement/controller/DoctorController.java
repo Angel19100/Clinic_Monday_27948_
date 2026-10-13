@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.service.DoctorService;
 import org.springframework.web.bind.annotation.*;
+import java.sql.Date;
+import kigali.clinc.clinicmanagement.domain.Appointment;
+
 
 @RestController
 @RequestMapping({"/api/doctor", "/api/doctors"})
@@ -156,4 +159,24 @@ public ResponseEntity<String> removeSpecializationFromDoctor(
             return ResponseEntity.ok(message);
         }
     }
+
+    // D1 Doctor's agenda
+@GetMapping("/{doctorId}/agenda")
+public ResponseEntity<?> getDoctorAgenda( @PathVariable UUID doctorId,  @RequestParam Date date) {
+
+    if (doctorService.getDoctorById(doctorId) == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("The doctor with that id does not exist");
+    }
+
+    return ResponseEntity.ok(
+            doctorService.getDoctorAgenda(doctorId, date));
+}
+// D3 Search doctors by name
+@GetMapping("/search")
+public ResponseEntity<List<Doctor>> searchDoctors(
+        @RequestParam String name) {
+
+    return ResponseEntity.ok(doctorService.searchDoctorsByName(name));
+}
 }

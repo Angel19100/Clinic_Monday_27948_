@@ -36,7 +36,9 @@ List<Object[]> findBusiestOffice();
     SELECT o FROM Office o WHERE NOT EXISTS (SELECT d FROM Doctor d WHERE d.office = o) ORDER BY o.officeNumber ASC
        """)
     List<Office> findFreeOffices();
-
+    
+@Query("SELECT COUNT(o) FROM Office o WHERE o.doctor IS NULL")
+long countFreeOffices();
     
 
 }

@@ -13,6 +13,10 @@ import kigali.clinc.clinicmanagement.domain.Specialization;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 import kigali.clinc.clinicmanagement.repository.OfficeRepository;
 import kigali.clinc.clinicmanagement.repository.SpecializationRepository;
+import java.sql.Date;
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
+import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 
 @Service
 public class DoctorService {
@@ -25,6 +29,9 @@ public class DoctorService {
 
     @Autowired
     private OfficeRepository officeRepo;
+
+    @Autowired
+private AppointmentRepository appointmentRepo;
 
     // CREATE
     public Doctor saveDoctor(Doctor doctor) {
@@ -247,5 +254,16 @@ public String moveDoctorToOffice(UUID doctorId, int officeNumber){
 
 
 }
+ // D1: Get a doctor's agenda for a specific date
+public List<Appointment> getDoctorAgenda(UUID doctorId, Date date) {
+    return appointmentRepo.findByDoctor_IdAndAppointmentDateAndStatusNot(
+            doctorId,
+            date,
+            AppointmentStatus.CANCELLED);
+}
 
+// D3 Search doctors by name
+public List<Doctor> searchDoctorsByName(String name) {
+    return doctorRepo.searchDoctorsByName(name);
+}
 }

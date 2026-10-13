@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import kigali.clinc.clinicmanagement.domain.Patient;
 import kigali.clinc.clinicmanagement.service.PatientService;
+import kigali.clinc.clinicmanagement.domain.Appointment;
 
 @RestController
 @RequestMapping({"/api/patient", "/api/patients"})
@@ -106,5 +107,21 @@ public ResponseEntity<List<Patient>> getFrequentPatients(
     return ResponseEntity.ok(
             patientService.getFrequentPatients(min)
     );
+}
+
+// D2 Patient upcoming appointments
+@GetMapping("/{ssNumber}/upcoming")
+public ResponseEntity<?> getUpcomingAppointments(
+        @PathVariable String ssNumber) {
+
+    List<Appointment> appointments =
+            patientService.getUpcomingAppointments(ssNumber);
+
+    if (appointments == null) {
+        return ResponseEntity.status(404)
+                .body("That patient with that ssnumber does not exist");
+    }
+
+    return ResponseEntity.ok(appointments);
 }
 }
