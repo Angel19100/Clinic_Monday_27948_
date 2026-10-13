@@ -12,7 +12,6 @@ import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import kigali.clinc.clinicmanagement.service.AppointmentService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 @RestController
@@ -199,5 +198,43 @@ public ResponseEntity<String> deleteCancelledBefore(
     return ResponseEntity.ok(
             deleted + " appointments deleted"
     );
+}
+
+@PatchMapping("/{id}/status")
+public ResponseEntity<String> updateAppointmentStatus( @PathVariable UUID id, @RequestParam AppointmentStatus status) {
+      
+        String result =
+            appointmentService.updateAppointmentStatus(id, status);
+
+    if (result.equals(
+            "The appointment with that id does not exist")) {
+        return ResponseEntity.status(404).body(result);
+
+    } else if (result.startsWith("Cannot change status from")) {
+        return ResponseEntity.badRequest().body(result);
+    
+    } else {
+        return ResponseEntity.ok(result);
+    }
+}
+
+@PatchMapping("/{id}/reschedule")
+public ResponseEntity<String> rescheduleAppointment(@PathVariable UUID id, @RequestParam java.sql.Date newDate) {
+
+    String result =
+            appointmentService.rescheduleAppointment(id, newDate);
+
+    if (result.equals(
+            "The appointment with that id does not exist")) {
+        return ResponseEntity.status(404).body(result);
+    } else if (result.equals(
+            "Doctor is already booked on that date")) {
+        return ResponseEntity.status(409).body(result);
+    } else if (result.equals(
+            "Appointment rescheduled successfully")) {
+        return ResponseEntity.ok(result);
+    } else {
+        return ResponseEntity.badRequest().body(result);
+    }
 }
 }

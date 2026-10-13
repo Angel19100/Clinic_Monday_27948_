@@ -33,8 +33,8 @@ List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(
         java.sql.Date start,
         java.sql.Date end);
 
-    // Assignment 2 - A4
-boolean existsByDoctorIdAndAppointmentDateAndStatusNot(
+    // Assignment 2 - A4  (B3 too)
+boolean existsByDoctor_IdAndAppointmentDateAndStatusNot(
         UUID doctorId,
         java.sql.Date appointmentDate,
         AppointmentStatus status);
@@ -75,6 +75,8 @@ Page<Appointment> findAll(Pageable pageable);
     AND a.appointmentDate < :date
 """)
 int deleteCancelledBefore(@Param("date") java.sql.Date date);
+
+
 
 }
 
