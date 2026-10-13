@@ -1,0 +1,2 @@
+### getDoctorsWithoutOffice
+GET http://localhost:1014/api/doctors/without-office

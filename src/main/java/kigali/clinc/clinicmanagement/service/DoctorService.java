@@ -166,4 +166,32 @@ public List<Doctor> getDoctorsWithoutOffice() {
     return doctorRepo.findDoctorsWithoutOffice();
 }
 
+// A1 Add one specialization to a doctor
+public String addSpecializationToDoctor(UUID doctorId, UUID specializationId)
+    {// check if doctor exists
+        Doctor doctor= doctorRepo.findById(doctorId).orElse(null);
+        if(doctor == null){
+            return "The doctor with that id does not exist";
+
+        }
+        // check whether the specialization exists
+        Specialization specialization = specializationRepo.findById(specializationId).orElse(null);
+        if(specialization == null){
+            return "That specialization does not exist";
+
+        }
+         //Check whether the doctoe alread has the specialization
+         if(doctor.getSpecializations().contains(specialization)){
+            return "The doctoe already has this specialization";
+         }
+
+         //adding without removing the existing specializations
+         doctor.getSpecializations().add(specialization);
+         //save doctor
+         doctorRepo.save(doctor);
+         return"Specialization added to the doctor";
+
+    }
+
+
 }

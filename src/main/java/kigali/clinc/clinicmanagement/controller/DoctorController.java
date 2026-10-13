@@ -6,6 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.service.DoctorService;
@@ -88,5 +91,26 @@ public ResponseEntity<List<Doctor>> getDoctorsWithoutOffice() {
             doctorService.getDoctorsWithoutOffice()
     );
 }
+
+//A1 adding one specialization to a doctor
+@PutMapping("/{doctorId}/specializations/{specializationId}")
+public ResponseEntity<String> addSpecializationToDoctor(
+        @PathVariable("doctorId") UUID doctorId,
+        @PathVariable("specializationId") UUID specializationId) {
+
+    String message = doctorService.addSpecializationToDoctor(
+            doctorId, specializationId);
+
+    if (message.equals("The doctor with that id does not exist")) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    } else if (message.equals("That specialization does not exist")) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    } else if (message.equals("The doctor already has that specialization")) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+    } else {
+        return ResponseEntity.ok(message);
+    }
+}
+
 
 }
