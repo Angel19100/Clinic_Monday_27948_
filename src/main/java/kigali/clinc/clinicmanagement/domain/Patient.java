@@ -33,6 +33,9 @@ public class Patient {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @Column(name = "ss_number", unique = true)
+    private String ssNumber;
+
     // One patient can have many appointments
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
@@ -72,6 +75,14 @@ public class Patient {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public String getSsNumber(){
+        return ssNumber;
+    }
+
+    public void setSsNumber(String ssNumber){
+        this.ssNumber = ssNumber;
     }
 }
 

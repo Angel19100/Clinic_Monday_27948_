@@ -51,6 +51,7 @@ private DoctorRepository doctorRepo;
         existingPatient.setFirstName(patient.getFirstName());
         existingPatient.setLastName(patient.getLastName());
         existingPatient.setDateOfBirth(patient.getDateOfBirth());
+        existingPatient.setSsNumber(patient.getSsNumber());
 
         return patientRepo.save(existingPatient);
     }

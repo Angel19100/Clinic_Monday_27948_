@@ -193,5 +193,59 @@ public String addSpecializationToDoctor(UUID doctorId, UUID specializationId)
 
     }
 
+    //A2 remove one specialization from a doctor
+     
+    public String removeSpecializationFromDoctor( UUID doctorId, UUID specializationId) {
+
+    Doctor doctor = doctorRepo.findById(doctorId).orElse(null);
+
+    if (doctor == null) {
+        return "The doctor with that id does not exist";
+    }
+
+    Specialization specialization =
+            specializationRepo.findById(specializationId).orElse(null);
+
+    if (specialization == null) {
+        return "That specialization does not exist";
+    }
+
+    if (!doctor.getSpecializations().contains(specialization)) {
+        return "The doctor does not have that specialization";
+    }
+
+    doctor.getSpecializations().remove(specialization);
+    doctorRepo.save(doctor);
+
+    return "Specialization removed from the doctor";
+}
+// A4 Move doctor to another office
+
+public String moveDoctorToOffice(UUID doctorId, int officeNumber){
+    Doctor doctor = doctorRepo.findById(doctorId).orElse(null);
+    
+    if(doctor == null) {
+        return "The doctor with that id does not exist";
+    }
+
+    Office office= officeRepo.findByOfficeNumber(officeNumber);
+
+    if(office == null){
+        return "The office with taht office number does not exist";
+    }
+
+    boolean taken = doctorRepo.existsByOffice_OfficeNumberAndIdNot(officeNumber, doctorId);
+
+    if (taken){
+        return "That office is taken by other doctor";
+    }
+
+    doctor.setOffice(office);
+    doctorRepo.save(doctor);
+
+    return "Office changed successfully";
+
+
+}
 
 }

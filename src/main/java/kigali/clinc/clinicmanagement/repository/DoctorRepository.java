@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import kigali.clinc.clinicmanagement.domain.Doctor;
+import kigali.clinc.clinicmanagement.domain.Office;
 
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
   
@@ -32,5 +33,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
                     """)
             List<Doctor> findDoctorsWithoutOffice();
 
+ 
+            
+         boolean existsByOffice_OfficeNumberAndIdNot(
+                int officeNumber, UUID doctorId);
 
-}
+        }

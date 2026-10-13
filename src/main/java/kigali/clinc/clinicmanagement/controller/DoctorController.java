@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.service.DoctorService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/api/doctor", "/api/doctors"})
@@ -111,6 +111,49 @@ public ResponseEntity<String> addSpecializationToDoctor(
         return ResponseEntity.ok(message);
     }
 }
+  // A2 remove a specialization from a doctor
+@DeleteMapping("/{doctorId}/specializations/{specializationId}")
+public ResponseEntity<String> removeSpecializationFromDoctor(
+        @PathVariable("doctorId") UUID doctorId,
+        @PathVariable("specializationId") UUID specializationId) {
+
+    String message = doctorService.removeSpecializationFromDoctor(doctorId, specializationId);
+
+    if (message.equals("The doctor with that id does not exist")
+            || message.equals("That specialization does not exist")) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    } else if (message.equals("The doctor does not have that specialization")) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+    } else {
+        return ResponseEntity.ok(message);
+    }
+}
+
+// A4 move a doctor to another office
 
 
+    // A4 - Move a doctor to another office
+    @PatchMapping("/{doctorId}/office")
+    public ResponseEntity<String> moveDoctorToOffice( @PathVariable("doctorId") UUID doctorId, @RequestParam("officeNumber") int officeNumber) {
+        String message = doctorService.moveDoctorToOffice(
+                doctorId, officeNumber);
+
+        if (message.equals(
+                "The doctor with that id does not exist")
+                || message.equals(
+                "The office with that office number does not exist")) {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(message);
+
+        } else if (message.equals(
+                "That office is taken by other doctor")) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(message);
+
+        } else {
+            return ResponseEntity.ok(message);
+        }
+    }
 }

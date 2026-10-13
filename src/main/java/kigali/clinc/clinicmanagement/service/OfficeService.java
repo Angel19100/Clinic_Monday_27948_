@@ -74,4 +74,9 @@ public Object[] getBusiestOffice() {
 
     return results.get(0);
 }
+// A3 get all free offices
+  public List<Office> getFreeOffices(){
+    return officeRepo.findFreeOffices();
+}
+
 }

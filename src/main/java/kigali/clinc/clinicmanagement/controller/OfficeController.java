@@ -14,7 +14,7 @@ import kigali.clinc.clinicmanagement.domain.Office;
 import kigali.clinc.clinicmanagement.service.OfficeService;
 
 @RestController
-@RequestMapping("/api/office")
+@RequestMapping({"/api/office" , "/api/offices"})
 public class OfficeController {
 
     @Autowired
@@ -96,4 +96,11 @@ public class OfficeController {
             officeServes.getBusiestOffice()
     );
   }
+
+  //A3 free Offices
+   @GetMapping("/free")
+   public ResponseEntity<List<Office>>getFreeOffices() {
+    return ResponseEntity.ok(officeServes.getFreeOffices());
+    
+   }
 }
