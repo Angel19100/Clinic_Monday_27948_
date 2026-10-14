@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
-import kigali.clinc.clinicmanagement.repository.PatientRepository;
+import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 import kigali.clinc.clinicmanagement.repository.OfficeRepository;
-import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
+import kigali.clinc.clinicmanagement.repository.PatientRepository;
 import kigali.clinc.clinicmanagement.repository.PrescriptionRepository;
 
 @Service

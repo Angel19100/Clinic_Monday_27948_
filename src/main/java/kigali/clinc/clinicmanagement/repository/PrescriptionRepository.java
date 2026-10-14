@@ -26,4 +26,13 @@ public interface PrescriptionRepository
     List<Prescription> findByPatientSsNumber(
             @Param("ssNumber") String ssNumber);
 
+//Bonus1 most prescribed medicines first
+
+@Query("""
+         SELECT p.medicineName, COUNT(p) FROM Prescription p GROUP BY p.medicineName ORDER BY COUNT(p) DESC
+        """)
+        List<Object[]> findTopMedicines();
+
+
+
 }

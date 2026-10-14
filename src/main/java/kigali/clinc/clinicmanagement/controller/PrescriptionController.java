@@ -103,4 +103,10 @@ public class PrescriptionController {
 
         return ResponseEntity.ok(result);
     }
+
+    //Bonus1 Top medicines by prescription count
+    @GetMapping ("/stats/top-medicines")
+     public ResponseEntity<List<Object[]>> getTopMedicines() {
+        return ResponseEntity.ok(prescriptionService.getTopMedicines());
+     }
 }

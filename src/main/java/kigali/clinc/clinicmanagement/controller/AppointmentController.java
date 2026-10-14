@@ -89,16 +89,19 @@ public class AppointmentController {
     public ResponseEntity<String> deleteAppointment(
             @PathVariable UUID id) {
 
-        boolean deleted = appointmentService.deleteAppointment(id);
+        String result = appointmentService.deleteAppointment(id);
 
-        if (!deleted) {
-            return ResponseEntity.notFound().build();
+        if (result.equals("NOT_FOUND")) {
+            return ResponseEntity.status(404).body("Appointment with that id not found");
         }
 
-        return ResponseEntity.ok(
-                "Appointment deleted successfully");
-    }
+        if (result.equals("Appointment has prescriptions, delete them first")) {
+            return ResponseEntity.status(409).body(result);
+        }
 
+        return ResponseEntity.ok(result);
+
+    }
     // A2: Get appointments by status
     @GetMapping("/by-status")
     public ResponseEntity<List<Appointment>> getAppointmentsByStatus(

@@ -80,12 +80,23 @@
       "response": []
     },
     {
-      "name": "New request",
+      "name": "Bonus 1 Top medicine",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": ""
+          "raw": "http://localhost:1014/api/prescriptions/stats/top-medicines",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "stats",
+            "top-medicines"
+          ]
         }
       },
       "response": []
@@ -547,12 +558,24 @@
       "response": []
     },
     {
-      "name": "C4 prescription id",
+      "name": "D2 doctor workloads",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
       "request": {
         "method": "GET",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n  [\r\n    {\r\n      \"id\": \"doctor-uuid\",\r\n      \"firstName\": \"Example\",\r\n      \"lastName\": \"Doctor\"\r\n    },\r\n    4\r\n  ]\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost:1014/api/prescriptions/appointment/167b0ce3-9789-4158-807e-026e018830f3",
+          "raw": "http://localhost:1014/api/doctors/workload?start=2026-10-01&end=2026-10-31",
           "protocol": "http",
           "host": [
             "localhost"
@@ -560,30 +583,18 @@
           "port": "1014",
           "path": [
             "api",
-            "prescriptions",
-            "appointment",
-            "167b0ce3-9789-4158-807e-026e018830f3"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "reading appointments",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:1014/api/prescriptions/appointment/f56ca220-3d73-455e-8cb8-89518a06fae7",
-          "host": [
-            "localhost"
+            "doctors",
+            "workload"
           ],
-          "port": "1014",
-          "path": [
-            "api",
-            "prescriptions",
-            "appointment",
-            "f56ca220-3d73-455e-8cb8-89518a06fae7"
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
           ]
         }
       },
@@ -736,6 +747,17 @@
             "dashboard",
             "summary"
           ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4 Deleting an appointment",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
         }
       },
       "response": []

@@ -266,4 +266,10 @@ public List<Appointment> getDoctorAgenda(UUID doctorId, Date date) {
 public List<Doctor> searchDoctorsByName(String name) {
     return doctorRepo.searchDoctorsByName(name);
 }
+// bonus 2 doctor worload method
+
+public List<Object[]> getDoctorWorkload(java.sql.Date start, java.sql.Date end) {
+    return appointmentRepo.findDoctorWorkload(start, end);
+}
+
 }

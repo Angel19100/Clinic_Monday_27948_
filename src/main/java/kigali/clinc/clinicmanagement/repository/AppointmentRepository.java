@@ -97,5 +97,9 @@ findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppoin
 
 long countByStatus(AppointmentStatus status);
 
+@Query("""
+    SELECT a.doctor, COUNT(a) FROM Appointment a WHERE a.status = kigali.clinc.clinicmanagement.domain.AppointmentStatus.COMPLETED AND a.appointmentDate BETWEEN :start AND :end GROUP BY a.doctor ORDER BY COUNT(a) DESC
+""")
+List<Object[]> findDoctorWorkload( @Param("start") java.sql.Date start, @Param("end") java.sql.Date end);
 }
 

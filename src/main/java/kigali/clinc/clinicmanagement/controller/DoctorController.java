@@ -179,4 +179,16 @@ public ResponseEntity<List<Doctor>> searchDoctors(
 
     return ResponseEntity.ok(doctorService.searchDoctorsByName(name));
 }
+
+// Bonus 2 Doctor workload by date range
+@GetMapping("/workload")
+public ResponseEntity<List<Object[]>> getDoctorWorkload( @RequestParam java.sql.Date start, @RequestParam java.sql.Date end) {
+    
+    if (start.after(end)) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.ok(
+            doctorService.getDoctorWorkload(start, end));
+}
 }

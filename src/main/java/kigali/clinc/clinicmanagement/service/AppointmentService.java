@@ -15,7 +15,7 @@ import kigali.clinc.clinicmanagement.repository.PatientRepository;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import kigali.clinc.clinicmanagement.repository.PrescriptionRepository;
 
 @Service
 public class AppointmentService {
@@ -29,12 +29,13 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepo;
 
-    // CREATE
+    @Autowired
+    private PrescriptionRepository prescriptionRepo;
+
+    
 // CREATE
 public Object saveAppointment(
-        Appointment appointment,
-        UUID doctorId,
-        UUID patientId) {
+        Appointment appointment,UUID doctorId, UUID patientId) {
 
        //Reject an Appointment date in the past 
        if (appointment.getAppointmentDate() != null) {
@@ -132,16 +133,20 @@ public Object saveAppointment(
 
         return appointmentRepo.save(existingAppointment);
     }
-
-    public boolean deleteAppointment(UUID id) {
+  // C4 preventing deleting appontments that have a prescription
+    public String deleteAppointment(UUID id) {
 
         if (!appointmentRepo.existsById(id)) {
-            return false;
+            return "NOT_FOUND";
+        }
+
+        
+        if (prescriptionRepo.existsByAppointment_Id(id)) {
+            return "That appointment has prescriptions, delete them first";
         }
 
         appointmentRepo.deleteById(id);
-
-        return true;
+             return "Appointment deleted successfully";
     }
 
     // - A2

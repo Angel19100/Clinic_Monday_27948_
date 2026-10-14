@@ -100,4 +100,9 @@ public class PrescriptionService {
 
         return "Prescription deleted successfully";
     }
+
+    //bonus1 top medicines
+    public List<Object[]> getTopMedicines(){
+        return prescriptionRepo.findTopMedicines();
+    }
 }
