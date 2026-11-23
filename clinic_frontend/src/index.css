@@ -1,0 +1,29 @@
+
+/* Office display table */
+.section table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.section th,
+.section td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+}
+
+.section th {
+  background-color: #eeeeee;
+}
+
+.section td button {
+  margin: 3px;
+}
+
+/* Search input */
+.section input {
+  width: 90%;
+  padding: 8px;
+  margin: 10px auto;
+}
