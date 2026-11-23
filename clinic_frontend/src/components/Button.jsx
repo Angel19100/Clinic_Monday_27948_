@@ -10,4 +10,4 @@ function Button({ buttonLabel, onClickButton }) {
   );
 }
 
-export default LibraryButton;
+export default Button;
