@@ -3,7 +3,7 @@ import './index.css';
 
 import Office from './components/Office';
 import OfficeDisplay from './components/OfficeDisplay';
-import LibraryButton from './components/LibraryButton';
+import Button from './components/Button';
 
 function App() {
   const [page, setPage] = useState('home');
@@ -13,7 +13,7 @@ function App() {
       <div className="container">
         <Office mode="save" />
 
-        <LibraryButton
+        <Button
           buttonLabel="Back to Home"
           onClickButton={() => setPage('home')}
         />
@@ -26,7 +26,7 @@ function App() {
       <div className="container">
         <Office mode="delete" />
 
-        <LibraryButton
+        <Button
           buttonLabel="Back to Home"
           onClickButton={() => setPage('home')}
         />
@@ -39,7 +39,7 @@ function App() {
       <div className="container">
         <OfficeDisplay />
 
-        <LibraryButton
+        <Button
           buttonLabel="Back to Home"
           onClickButton={() => setPage('home')}
         />
@@ -53,17 +53,17 @@ function App() {
       <h2>Home</h2>
 
       <div className="buttons">
-        <LibraryButton
+        <Button
           buttonLabel="Save Office"
           onClickButton={() => setPage('save')}
         />
 
-        <LibraryButton
+        <Button
           buttonLabel="Delete Office"
           onClickButton={() => setPage('delete')}
         />
 
-        <LibraryButton
+        <Button
           buttonLabel="Display Offices"
           onClickButton={() => setPage('display')}
         />

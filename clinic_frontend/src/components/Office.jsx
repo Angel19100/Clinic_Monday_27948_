@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import LibraryButton from './LibraryButton';
+import Button from './Button';
 
 function Office({ mode }) {
   const [officeName, setOfficeName] = useState('');
@@ -110,7 +110,7 @@ function Office({ mode }) {
             placeholder="Enter office number"
           />
 
-          <LibraryButton
+          <Button
             buttonLabel="Save Office"
             onClickButton={SaveOffice}
           />
@@ -127,7 +127,7 @@ function Office({ mode }) {
             placeholder="Enter office number to delete"
           />
 
-          <LibraryButton
+          <Button
             buttonLabel="Delete Office"
             onClickButton={DeleteOffice}
           />

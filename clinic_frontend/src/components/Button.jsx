@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LibraryButton({ buttonLabel, onClickButton }) {
+function Button({ buttonLabel, onClickButton }) {
   return (
     <span>
       <button onClick={onClickButton}>
